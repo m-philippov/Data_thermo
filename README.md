@@ -1,0 +1,1 @@
+Works with txt and bmt files. A program for calculating integral and local efficiency and Nusseld number. In the examples folder you can find the submitted files to ensure that the calculation is successful.
