@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <map>
 #include <iostream>
 #include <fstream>
 #include "../read_begin_conditional.h"

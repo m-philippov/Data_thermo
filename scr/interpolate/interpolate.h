@@ -7,13 +7,13 @@
 #include <iostream>
 
 // поверхность
-#define weight_plate = 0.2;
-#define lenght_plate = 0.292;
+//#define weight_plate = 0.2;
+//#define lenght_plate = 0.292;
 
 //канал
-#define high0 = 0.02;
-#define lenght0 = 0.36;
-#define weight0 = 0.15;
+//#define high0 = 0.02;
+//#define lenght0 = 0.36;
+//#define weight0 = 0.15;
 
 enum class InitialConditions : int {
 	NUM_OF_EXPERIMENT = 0,
