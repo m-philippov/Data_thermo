@@ -6,14 +6,16 @@
 #include "../data/data.h"
 #include "../interpolate/interpolate.h"
 #include "../read_begin_conditional.h"
+#include "../figure/figure.h"
 
 class Nu { 
 public:
 	//Ra ~ Nu^4
-	Nu(int width_pix, int height_pix, int margin_from_edges_pix, float linear_ax, float linear_b, float x_begin_coord, float y_begin_coord, float non_dimensionalize_coeff, const std::vector<beginConditionalsNu4>& bC, const std::string& x_name, const std::string& y_name, int i, float lenght_plate, float weight_plate, float epsilon_kraska, float epsilon_material, float diameter_jet);
+	Nu(std::string Files, int width_pix, int height_pix, int margin_from_edges_pix, float linear_ax, float linear_b, float x_begin_coord, float y_begin_coord, float non_dimensionalize_coeff, std::vector<beginConditionalsNu4>& bC, const std::string& x_name, const std::string& y_name, int i, float lenght_plate, float weight_plate, float epsilon_kraska, float epsilon_material, float hydravlic_diameter, const std::string& folder);
 	//Ra ~ Nu^3
-	//Nu(int width_pix, int height_pix, int margin_from_edges_pix, float linear_ax, float linear_b, float x_begin_coord, float y_begin_coord, float non_dimensionalize_coeff, const std::vector<beginConditionalsNu4>& bC, const std::string& x_name, const std::string& y_name, int i, float lenght_plate, float weight_plate, float epsilon_kraska, float epsilon_material, float diameter_jet);
+	Nu(int width_pix, int height_pix, int margin_from_edges_pix, float linear_ax, float linear_b, float x_begin_coord, float y_begin_coord, float non_dimensionalize_coeff, std::vector<beginConditionalsNu3>& bC, const std::string& x_name, const std::string& y_name, int i, float lenght_plate, float weight_plate, float epsilon_kraska, float epsilon_material, float hydravlic_diameter, int number_of_wall, float x_begin, float high, float lenght, float weight, const std::string& folder);
 	void AreaNu();
+	void TminNumax(std::map<int, std::pair<float, float>>& a);
 	void AreaIntegralNu();
 	void AlongXbNu();
 	void AlongXNu(float x_0);
@@ -29,6 +31,7 @@ private:
 	float x_begin_coord, y_begin_coord, non_dimensionalize_coeff;
 	std::vector<beginConditionalsNu4> bC; 
 	std::string x_name, y_name;
+	std::string folder;
 	int i;
 	std::vector<float> X;
 	std::vector<float> Y;

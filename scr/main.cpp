@@ -116,6 +116,11 @@ int main() {
 		infile >> x_name >> y_name;
 		std::string beginParametr = "table_in_c.txt"; //файл с начальными параметрами
 		infile >> beginParametr;
+		
+		std::string Files = "table_in_c.txt"; //файл с начальными параметрами
+		infile >> Files;
+		std::string folder = Files;
+		infile >> folder;
 		std::vector<beginConditionalsNu4> bC = InputBeginConditionalsNu4(beginParametr);
 		std::vector<std::string> parametr_calculate;
 		while (!infile.eof()) {
@@ -125,15 +130,20 @@ int main() {
 			parametr_calculate.push_back(parcal);
 		}
 		infile.close();
+		std::map<int, std::pair<float, float>> nuMax__;
 		for (int j = 0; j < bC.size(); j++) {
 			int i = 0;
-			Nu object(width_pix, height_pix, margin_from_edges_pix, linear_ax, linear_b, x_begin_coord, y_begin_coord, non_dimensionalize_coeff, bC, x_name, y_name, j, lenght_plate, weight_plate, epsilon_kraska, epsilon_material, diameter_jet);
+			Nu object(Files, width_pix, height_pix, margin_from_edges_pix, linear_ax, linear_b, x_begin_coord, y_begin_coord, non_dimensionalize_coeff, bC, x_name, y_name, j, lenght_plate, weight_plate, epsilon_kraska, epsilon_material, diameter_jet, folder);
 			while (i < parametr_calculate.size()) {
 
 				if (parametr_calculate[i] == "AREA_LOCAL") {
 					object.AreaNu();
 					i++;
 					std::cout << bC[j].number << std::endl;
+				}
+				else if (parametr_calculate[i] == "NUMAX_TMIN") {
+					object.TminNumax(nuMax__);
+					i++;
 				}
 				else if (parametr_calculate[i] == "AREA_INTEGRAL") {
 					object.AreaIntegralNu();
@@ -175,6 +185,12 @@ int main() {
 				}
 			}
 		}
+		std::ofstream fileNuMax(folder + "/NuMax.txt");
+		for(const auto& c : nuMax__) {
+			fileNuMax << "i\tT_min\tNu_max\n";
+			fileNuMax << c.first << "\t" << c.second.first << "\t" << c.second.second << "\n";
+		}
+		fileNuMax.close();
 	}
 	else if (ThermoCharacteristic == "Nu3") {
 		std::cout << "Nu3\n";
@@ -191,15 +207,25 @@ int main() {
 		infile >> lenght_plate >> weight_plate;
 		float epsilon_kraska, epsilon_material;
 		infile >> epsilon_kraska >> epsilon_material;
-		float diameter_jet;
-		infile >> diameter_jet;
+		float hydravlic_diameter;
+		infile >> hydravlic_diameter;
+		int number_of_wall = 2;
+		float x_begin_wall = 0;
+		infile >> number_of_wall >> x_begin_wall;
+		float high = 0.02, lenght = 0.36, weight = 0.15;
+		infile >> high >> lenght >> weight;
 		std::string x_name = "z/d", y_name = "x/d";
 		infile >> x_name >> y_name;
 		std::string beginParametr = "table_in_c.txt"; //файл с начальными параметрами
 		infile >> beginParametr;
-		std::vector<beginConditionalsNu4> bC = InputBeginConditionalsNu4(beginParametr);
+		std::vector<beginConditionalsNu3> bC = InputBeginConditionalsNu3(beginParametr);
 		std::vector<std::string> parametr_calculate;
+		
 
+		std::string Files = "table_in_c.txt"; //файл с начальными параметрами
+		infile >> Files;
+		std::string folder = Files;
+		infile >> folder;
 		while (!infile.eof()) {
 
 			std::string parcal;
@@ -207,13 +233,18 @@ int main() {
 			parametr_calculate.push_back(parcal);
 		}
 		infile.close();
+		std::map<int, std::pair<float, float>> nuMax__;
 		int i = 0;
 		for (int j = 0; j < bC.size(); j++) {
-			Nu object(width_pix, height_pix, margin_from_edges_pix, linear_ax, linear_b, x_begin_coord, y_begin_coord, non_dimensionalize_coeff, bC, x_name, y_name, j, lenght_plate, weight_plate, epsilon_kraska, epsilon_material, diameter_jet);
+			Nu object(width_pix, height_pix, margin_from_edges_pix, linear_ax, linear_b, x_begin_coord, y_begin_coord, non_dimensionalize_coeff, bC, x_name, y_name, j, lenght_plate, weight_plate, epsilon_kraska, epsilon_material, hydravlic_diameter, number_of_wall, x_begin_wall, high, lenght, weight, folder);
 			while (i < parametr_calculate.size()) {
 
 				if (parametr_calculate[i] == "AREA_LOCAL") {
 					object.AreaNu();
+					i++;
+				}
+				else if (parametr_calculate[i] == "NUMAX_TMIN") {
+					object.TminNumax(nuMax__);
 					i++;
 				}
 				else if (parametr_calculate[i] == "AREA_INTEGRAL") {
